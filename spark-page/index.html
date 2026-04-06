@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spark — Give Your Org a Chief Agentic Officer | Radical Imagination</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #CFB53B;
+  --gold-dim: rgba(207,181,59,0.15);
+  --black: #0D0D0D;
+  --surface: #141414;
+  --text: #E8E8E8;
+  --muted: #888;
+  --dim: #444;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:var(--black); color:var(--text); min-height:100vh; }
+
+/* Gold top line */
+.gold-line { height:4px; background:var(--gold); }
+
+/* Gate */
+#gate {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; padding:40px 20px; text-align:center;
+}
+#gate h1 { font-size:2.5rem; font-weight:900; color:var(--gold); margin-bottom:8px; }
+#gate .sub { color:var(--muted); margin-bottom:32px; max-width:500px; line-height:1.6; }
+#gate input {
+  padding:14px 20px; width:280px; background:var(--surface); border:2px solid var(--dim);
+  color:var(--text); border-radius:8px; font-size:16px; text-align:center;
+  letter-spacing:4px; font-family:monospace;
+}
+#gate input:focus { border-color:var(--gold); outline:none; }
+#gate input::placeholder { color:var(--dim); letter-spacing:2px; font-size:14px; }
+#gate .error { color:#c44; font-size:13px; margin-top:8px; min-height:20px; }
+#gate .public-link {
+  margin-top:40px; font-size:13px; color:var(--muted);
+}
+#gate .public-link a { color:var(--gold); text-decoration:none; }
+#gate .public-link a:hover { text-decoration:underline; }
+
+/* Content (hidden until authenticated) */
+#content { display:none; }
+
+.container { max-width:800px; margin:0 auto; padding:40px 20px; }
+
+.hero { text-align:center; padding:60px 20px 40px; }
+.hero h1 { font-size:2.2rem; font-weight:900; color:var(--gold); margin-bottom:12px; }
+.hero p { color:var(--muted); max-width:550px; margin:0 auto; line-height:1.7; }
+
+.section { padding:40px 0; border-top:1px solid #222; }
+.section h2 { font-size:1.4rem; font-weight:800; color:var(--gold); margin-bottom:16px; }
+.section p { color:#bbb; line-height:1.7; margin-bottom:12px; }
+
+/* Resource cards */
+.resources { display:flex; flex-direction:column; gap:12px; margin-top:16px; }
+.resource {
+  background:var(--surface); border-radius:8px; padding:20px;
+  border-left:3px solid var(--gold); display:flex; justify-content:space-between;
+  align-items:center; gap:16px;
+}
+.resource-info h3 { font-size:1rem; font-weight:700; margin-bottom:4px; }
+.resource-info p { font-size:0.85rem; color:var(--muted); margin:0; }
+.resource a {
+  padding:8px 16px; background:var(--gold); color:var(--black);
+  text-decoration:none; border-radius:4px; font-size:13px; font-weight:700;
+  white-space:nowrap;
+}
+.resource a:hover { opacity:0.9; }
+
+/* Format cards */
+.formats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+@media (max-width:600px) { .formats { grid-template-columns:1fr; } }
+.format-card {
+  background:var(--surface); border-radius:8px; padding:20px;
+  border:1px solid #222;
+}
+.format-card h3 { font-size:1rem; color:var(--gold); margin-bottom:4px; }
+.format-card .duration { font-size:0.8rem; color:var(--muted); margin-bottom:8px; }
+.format-card p { font-size:0.85rem; color:#bbb; line-height:1.5; }
+.format-card .price { font-size:1.1rem; font-weight:800; color:var(--gold); margin-top:8px; }
+
+.footer {
+  text-align:center; padding:40px 20px; border-top:1px solid #222;
+  font-size:0.8rem; color:var(--dim);
+}
+.footer a { color:var(--gold); text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="gold-line"></div>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <h1>✒️⚡ Spark</h1>
+  <p class="sub">Workshop materials for "Give Your Org a Spark: Building a Chief Agentic Officer." Enter your workshop access code to continue.</p>
+  <input type="password" id="pw" placeholder="access code" autofocus
+         onkeydown="if(event.key==='Enter')checkPw()">
+  <div class="error" id="error"></div>
+  <div class="public-link">
+    Don't have a code? The open-source template is free:<br>
+    <a href="https://github.com/radical-imagination/spark-workshop-template" target="_blank">github.com/radical-imagination/spark-workshop-template</a>
+  </div>
+</div>
+
+<!-- PROTECTED CONTENT -->
+<div id="content">
+
+<div class="hero">
+  <h1>✒️⚡ Spark Workshop</h1>
+  <p>Everything you need to build, facilitate, and run the "Give Your Org a Spark" workshop. Facilitator guides, curriculum, slide decks, and advanced materials.</p>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>Workshop Materials</h2>
+    <p>Download or open directly in your browser.</p>
+    <div class="resources">
+      <div class="resource">
+        <div class="resource-info">
+          <h3>Full Curriculum</h3>
+          <p>Keynote structure, 3-hour workshop flow, facilitator notes, revenue model</p>
+        </div>
+        <a href="curriculum.md" target="_blank">Open</a>
+      </div>
+      <div class="resource">
+        <div class="resource-info">
+          <h3>Keynote Slide Deck (26 slides)</h3>
+          <p>60-min talk — Problem, Architecture, Superpowers, Honest Part, Close</p>
+        </div>
+        <a href="keynote-deck.html" target="_blank">Present</a>
+      </div>
+      <div class="resource">
+        <div class="resource-info">
+          <h3>Workshop Template Repo</h3>
+          <p>Fork this — CLAUDE.md, state files, agent templates, memory, protocols</p>
+        </div>
+        <a href="https://github.com/radical-imagination/spark-workshop-template" target="_blank">GitHub</a>
+      </div>
+      <div class="resource">
+        <div class="resource-info">
+          <h3>Facilitator Guide</h3>
+          <p>Timing cues, troubleshooting, common questions, room setup</p>
+        </div>
+        <a href="facilitator-guide.md" target="_blank">Open</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Workshop Formats</h2>
+    <div class="formats">
+      <div class="format-card">
+        <h3>Keynote</h3>
+        <div class="duration">60 minutes</div>
+        <p>The story. The architecture. The demos. The honest part. Q&A. No build time — pure narrative.</p>
+        <div class="price">$2,500 – $5,000</div>
+      </div>
+      <div class="format-card">
+        <h3>Workshop</h3>
+        <div class="duration">3 hours</div>
+        <p>Hands-on. Design agents, build state files, connect Gmail, run first session. Leave with a working system.</p>
+        <div class="price">$150/person (cap 25)</div>
+      </div>
+      <div class="format-card">
+        <h3>Half-Day Seminar</h3>
+        <div class="duration">4-5 hours</div>
+        <p>Workshop + advanced features: cross-project intelligence, contradiction detection, scenario engine.</p>
+        <div class="price">$250/person (cap 20)</div>
+      </div>
+      <div class="format-card">
+        <h3>Custom Org Build</h3>
+        <div class="duration">2 days on-site</div>
+        <p>We build your Spark for you. Agents, state files, memory, integrations — tailored to your organization.</p>
+        <div class="price">$10,000 – $15,000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Advanced Materials</h2>
+    <div class="resources">
+      <div class="resource">
+        <div class="resource-info">
+          <h3>Spark Architecture Deep Dive</h3>
+          <p>9 intelligence upgrades, 5 capabilities, cross-project intelligence protocol</p>
+        </div>
+        <a href="architecture.md" target="_blank">Open</a>
+      </div>
+      <div class="resource">
+        <div class="resource-info">
+          <h3>Agent Calibration Guide</h3>
+          <p>Conservative vs aggressive vs balanced. When to use each. Anti-rubber-stamp rule.</p>
+        </div>
+        <a href="calibration.md" target="_blank">Open</a>
+      </div>
+      <div class="resource">
+        <div class="resource-info">
+          <h3>Cross-Project Intelligence Protocol</h3>
+          <p>6 detection patterns. How Spark finds connections across 17 projects in one scan.</p>
+        </div>
+        <a href="cross-project.md" target="_blank">Open</a>
+      </div>
+      <div class="resource">
+        <div class="resource-info">
+          <h3>Case Study: Radical Imagination</h3>
+          <p>155K LOC, 17 projects, 1 founder, $20/month. The full story with metrics.</p>
+        </div>
+        <a href="case-study.md" target="_blank">Open</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Book a Workshop</h2>
+    <p>Ready to give your organization a Spark?</p>
+    <p style="margin-top:12px;">
+      <strong>Email:</strong> <a href="mailto:create@radicalimagination.xyz" style="color:var(--gold);text-decoration:none;">create@radicalimagination.xyz</a><br>
+      <strong>Subject:</strong> "Spark Workshop — [Your Org Name]"
+    </p>
+    <p style="color:var(--muted);margin-top:12px;font-size:0.9rem;">
+      First workshop is free at partner venues. Reach out to discuss.
+    </p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <a href="https://radicalimagination.xyz">Radical Imagination</a> ·
+  <a href="https://github.com/radical-imagination/spark-workshop-template">GitHub</a><br>
+  Fiscally sponsored by Fractured Atlas 501(c)(3)
+</div>
+
+</div>
+
+<script>
+// Password gate — same pattern as ops dashboard
+const CORRECT = 'ri2026';
+const COOKIE = 'spark-auth';
+
+function checkPw() {
+  const pw = document.getElementById('pw').value;
+  if (pw === CORRECT) {
+    document.cookie = COOKIE + '=1;max-age=' + (30*86400) + ';path=/';
+    unlock();
+  } else {
+    document.getElementById('error').textContent = 'Invalid code.';
+    document.getElementById('pw').value = '';
+    document.getElementById('pw').focus();
+  }
+}
+
+function unlock() {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+}
+
+// Check cookie on load
+if (document.cookie.includes(COOKIE + '=1')) {
+  unlock();
+}
+</script>
+</body>
+</html>

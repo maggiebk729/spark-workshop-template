@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Give Your Org a Spark — Keynote</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VTC+Du+Bois&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0D0D0D;
+    --gold: #CFB53B;
+    --white: #E8E8E8;
+    --dim: #888888;
+    --red: #E84040;
+    --amber: #E8A020;
+    --dark-row: #1A1A1A;
+    --darker-row: #141414;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    cursor: default;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .heading {
+    font-family: 'VTC Du Bois', Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+  }
+
+  .slide {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    padding: 60px 80px 80px;
+    position: absolute;
+    top: 0; left: 0;
+    flex-direction: column;
+    justify-content: center;
+    border-top: 4px solid var(--gold);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .slide.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .slide-counter {
+    position: fixed;
+    bottom: 24px;
+    right: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dim);
+    z-index: 100;
+    letter-spacing: 1px;
+  }
+
+  .act-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 64px;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  h1 .gold { color: var(--gold); }
+
+  h2 {
+    font-size: 52px;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 24px;
+    color: var(--dim);
+    font-weight: 300;
+    line-height: 1.5;
+    max-width: 800px;
+  }
+
+  .big-number {
+    font-family: 'VTC Du Bois', Georgia, serif;
+    font-size: 120px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .big-quote {
+    font-size: 36px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.4;
+    max-width: 900px;
+    border-left: 4px solid var(--gold);
+    padding-left: 32px;
+  }
+
+  .speaker-note {
+    font-size: 20px;
+    color: var(--dim);
+    font-style: italic;
+    margin-top: 24px;
+  }
+
+  ul.big-list {
+    list-style: none;
+    padding: 0;
+  }
+  ul.big-list li {
+    font-size: 28px;
+    line-height: 1.6;
+    padding: 8px 0;
+    padding-left: 32px;
+    position: relative;
+    color: var(--white);
+  }
+  ul.big-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18px;
+    width: 12px;
+    height: 12px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+
+  /* Tables */
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    margin-top: 12px;
+  }
+  table.data-table th {
+    background: var(--gold);
+    color: var(--black);
+    font-weight: 700;
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  table.data-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #222;
+  }
+  table.data-table tr:nth-child(odd) td {
+    background: var(--dark-row);
+  }
+  table.data-table tr:nth-child(even) td {
+    background: var(--darker-row);
+  }
+  table.data-table td:first-child {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* State file list */
+  .state-list {
+    list-style: none;
+    padding: 0;
+  }
+  .state-list li {
+    font-size: 24px;
+    padding: 10px 0;
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .state-list .fname {
+    font-family: 'Courier New', monospace;
+    color: var(--gold);
+    font-size: 22px;
+    min-width: 280px;
+  }
+  .state-list .fdesc {
+    color: var(--dim);
+    font-size: 20px;
+  }
+
+  /* Cost slide */
+  .cost-crossed {
+    font-family: 'VTC Du Bois', Georgia, serif;
+    font-size: 72px;
+    color: var(--dim);
+    text-decoration: line-through;
+    text-decoration-color: var(--red);
+    text-decoration-thickness: 4px;
+    opacity: 0.5;
+  }
+  .cost-real {
+    font-family: 'VTC Du Bois', Georgia, serif;
+    font-size: 160px;
+    color: var(--gold);
+    line-height: 1;
+    margin-top: -8px;
+  }
+
+  /* Failure cards */
+  .failure-card {
+    background: linear-gradient(135deg, #2A1010, #1A0808);
+    border-left: 4px solid var(--red);
+    padding: 20px 28px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    font-size: 22px;
+    line-height: 1.5;
+    color: #F0C0C0;
+  }
+  .failure-card:nth-child(2) {
+    border-left-color: var(--amber);
+    background: linear-gradient(135deg, #2A1E08, #1A1205);
+    color: #F0DDB0;
+  }
+  .failure-card:nth-child(3) {
+    border-left-color: var(--amber);
+    background: linear-gradient(135deg, #2A1E08, #1A1205);
+    color: #F0DDB0;
+  }
+
+  /* Emoji auth */
+  .emoji-auth {
+    font-size: 120px;
+    margin: 20px 0;
+    letter-spacing: 24px;
+  }
+
+  /* Grid */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* Connection cards */
+  .connection-card {
+    background: var(--dark-row);
+    border: 1px solid #333;
+    border-left: 4px solid var(--gold);
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    border-radius: 4px;
+    font-size: 22px;
+    line-height: 1.5;
+  }
+  .connection-num {
+    color: var(--gold);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  /* Centered */
+  .center-content {
+    align-items: center;
+    text-align: center;
+  }
+  .center-content h2 {
+    max-width: 900px;
+  }
+  .center-content .subtitle {
+    margin: 0 auto;
+  }
+
+  /* Escalation list */
+  ul.escalation {
+    list-style: none;
+    padding: 0;
+  }
+  ul.escalation li {
+    font-size: 32px;
+    line-height: 1.5;
+    padding: 6px 0;
+    color: var(--dim);
+  }
+  ul.escalation li.lit {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* Avatar placeholder */
+  .avatar-placeholder {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+    margin-bottom: 24px;
+  }
+
+  /* Workshop number list */
+  ol.workshop-steps {
+    list-style: none;
+    padding: 0;
+    counter-reset: step;
+  }
+  ol.workshop-steps li {
+    font-size: 26px;
+    line-height: 1.5;
+    padding: 10px 0;
+    padding-left: 48px;
+    position: relative;
+    counter-increment: step;
+  }
+  ol.workshop-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 36px;
+    height: 36px;
+    background: var(--gold);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .final-line {
+    font-family: 'VTC Du Bois', Georgia, serif;
+    font-size: 42px;
+    color: var(--gold);
+    line-height: 1.4;
+    max-width: 800px;
+    margin-top: 32px;
+  }
+
+  .ri-mark {
+    font-size: 14px;
+    color: var(--dim);
+    position: fixed;
+    bottom: 24px;
+    left: 40px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    text-transform: uppercase;
+    z-index: 100;
+  }
+
+  /* Q&A */
+  .qa-big {
+    font-family: 'VTC Du Bois', Georgia, serif;
+    font-size: 200px;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -4px;
+  }
+
+  /* Responsive for smaller screens */
+  @media (max-width: 1200px) {
+    .slide { padding: 40px 48px 60px; }
+    h1 { font-size: 48px; }
+    h2 { font-size: 40px; }
+    .big-number { font-size: 90px; }
+    .cost-real { font-size: 120px; }
+    .cost-crossed { font-size: 56px; }
+    ul.big-list li { font-size: 24px; }
+    table.data-table { font-size: 15px; }
+    .qa-big { font-size: 140px; }
+  }
+
+  /* progress bar */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: var(--gold);
+    z-index: 200;
+    transition: width 0.35s ease;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="ri-mark">Radical Imagination</div>
+<div class="slide-counter" id="counter"></div>
+
+<!-- ============================================================ -->
+<!-- ACT 1: THE PROBLEM -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 1: Title -->
+<div class="slide center-content" data-act="1">
+  <div class="avatar-placeholder">&#9889;</div>
+  <h1>Give Your Org a <span class="gold">Spark</span></h1>
+  <p class="subtitle" style="font-size: 32px; color: var(--white); margin-bottom: 8px;">Building a Chief Agentic Officer</p>
+  <p class="subtitle">Mike Spade &middot; Radical Imagination</p>
+</div>
+
+<!-- SLIDE 2: The Setup -->
+<div class="slide" data-act="1">
+  <div class="act-label">Act 1 &mdash; The Problem</div>
+  <h2>I'm one person running <span class="gold">17 projects</span> across <span class="gold">155,000 lines of code</span> with zero funding.</h2>
+  <p class="subtitle" style="margin-top: 32px;">I needed to hire 5 people.<br>I had $20/month.</p>
+</div>
+
+<!-- SLIDE 3: The 5 Roles -->
+<div class="slide" data-act="1">
+  <div class="act-label">Act 1 &mdash; The Problem</div>
+  <h2 style="font-size: 40px; margin-bottom: 28px;">What I actually need</h2>
+  <table class="data-table" style="max-width: 700px;">
+    <thead>
+      <tr><th>Role</th><th>Market Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Grant Writer</td><td>$50 - 70K</td></tr>
+      <tr><td>Instructional Designer</td><td>$65 - 85K</td></tr>
+      <tr><td>Research Archivist</td><td>$55 - 75K</td></tr>
+      <tr><td>Cultural Consultant</td><td>$100 - 250/hr</td></tr>
+      <tr><td>Impact Analyst</td><td>$30 - 40K</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size: 28px; margin-top: 28px; color: var(--gold);">Total: ~$250K/year &nbsp;&mdash;&nbsp; My budget: one Claude subscription.</p>
+</div>
+
+<!-- SLIDE 4: The Bad Version -->
+<div class="slide center-content" data-act="1">
+  <div class="act-label">Act 1 &mdash; The Problem</div>
+  <h2 style="font-size: 44px;">"First I just asked Claude<br>to do stuff. Like everyone."</h2>
+  <div style="background: #1A1A1A; border: 1px solid #333; border-radius: 8px; padding: 32px 40px; max-width: 700px; margin: 32px auto 0; text-align: left;">
+    <p style="color: var(--gold); font-size: 16px; font-weight: 600; margin-bottom: 12px;">USER</p>
+    <p style="font-size: 20px; color: var(--white); margin-bottom: 20px;">Write me a grant proposal for an education project.</p>
+    <p style="color: var(--dim); font-size: 16px; font-weight: 600; margin-bottom: 12px;">AI</p>
+    <p style="font-size: 20px; color: var(--dim);">Sure! Here's a generic grant proposal template...</p>
+  </div>
+  <p class="subtitle" style="margin-top: 28px;">The answer is fine. It's useless the next day.<br><strong style="color: var(--white);">The problem isn't the AI. It forgets everything.</strong></p>
+</div>
+
+<!-- SLIDE 5: The Realization -->
+<div class="slide center-content" data-act="1">
+  <div class="act-label">Act 1 &mdash; The Problem</div>
+  <ul class="escalation">
+    <li>What if the AI could remember?</li>
+    <li class="lit">What if it had a job description?</li>
+    <li>What if it had FILES to read?</li>
+    <li class="lit" style="color: var(--gold); font-size: 40px; margin-top: 8px;">What if it had COLLEAGUES?</li>
+  </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 2: THE ARCHITECTURE -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 6: Meet Spark -->
+<div class="slide" data-act="2">
+  <div class="act-label">Act 2 &mdash; The Architecture</div>
+  <div style="display: flex; align-items: center; gap: 32px; margin-bottom: 24px;">
+    <div class="avatar-placeholder" style="width: 120px; height: 120px; font-size: 52px;">&#9889;</div>
+    <div>
+      <h2 style="margin-bottom: 4px;">Meet <span class="gold">Spark</span></h2>
+      <p class="subtitle">The Chief Agentic Officer</p>
+    </div>
+  </div>
+  <p style="font-size: 26px; line-height: 1.6; max-width: 900px;">You talk to Spark. Spark routes to the right agent.<br>One interface. Eight specialized minds behind it.</p>
+</div>
+
+<!-- SLIDE 7: The 8 Agents -->
+<div class="slide" data-act="2">
+  <div class="act-label">Act 2 &mdash; The Architecture</div>
+  <h2 style="font-size: 36px; margin-bottom: 16px;">The 8 Agents</h2>
+  <table class="data-table" style="font-size: 16px;">
+    <thead>
+      <tr><th>Agent</th><th>What They Do</th><th>Replaces</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Curriculum Architect</td><td>Designs learning experiences</td><td>Instructional designer</td></tr>
+      <tr><td>Money Agent</td><td>Grant strategy, funder analysis</td><td>Grant writer</td></tr>
+      <tr><td>Cultural Archivist</td><td>Source registries, provenance</td><td>Research archivist</td></tr>
+      <tr><td>Cultural Validator</td><td>Reviews for integrity</td><td>Cultural consultant</td></tr>
+      <tr><td>Technical Mentor</td><td>Learning paths, code guidance</td><td>Senior dev mentor</td></tr>
+      <tr><td>Collective Manager</td><td>Roster, portfolio, onboarding</td><td>Operations manager</td></tr>
+      <tr><td>Impact & Engagement</td><td>Reports, social, content</td><td>Impact analyst</td></tr>
+      <tr><td>Commercial Strategist</td><td>Evaluates opportunities</td><td>Business dev</td></tr>
+    </tbody>
+  </table>
+  <p class="speaker-note">"Google's research: multi-agent systems lose performance above 8. So we stopped at 8."</p>
+</div>
+
+<!-- SLIDE 8: The State Layer -->
+<div class="slide" data-act="2">
+  <div class="act-label">Act 2 &mdash; The Architecture</div>
+  <h2 style="font-size: 38px; margin-bottom: 24px;">The State Layer</h2>
+  <p style="font-size: 24px; margin-bottom: 24px; color: var(--dim);">Not a database &mdash; markdown files in a git repo.</p>
+  <ul class="state-list">
+    <li><span class="fname">spark-state.md</span><span class="fdesc">The map of everything in motion</span></li>
+    <li><span class="fname">portfolio.md</span><span class="fdesc">Every project with status, LOC, validation</span></li>
+    <li><span class="fname">collective-roster.md</span><span class="fdesc">People, roles, connections</span></li>
+    <li><span class="fname">validation-log.md</span><span class="fdesc">Cultural integrity tracking</span></li>
+    <li><span class="fname">activity-log.md</span><span class="fdesc">Session-by-session receipts</span></li>
+    <li><span class="fname">decision-journal.md</span><span class="fdesc">Every decision with reasoning</span></li>
+    <li><span class="fname">source-health.md</span><span class="fdesc">Trust scores per archive</span></li>
+  </ul>
+  <p style="font-size: 22px; color: var(--gold); margin-top: 20px;">"Every agent reads the same files. The state IS the institution."</p>
+</div>
+
+<!-- SLIDE 9: Memory -->
+<div class="slide" data-act="2">
+  <div class="act-label">Act 2 &mdash; The Architecture</div>
+  <h2 style="font-size: 44px;">Spark <span class="gold">remembers</span><br>across conversations.</h2>
+  <div style="background: #1A1A1A; border: 1px solid #333; border-radius: 8px; padding: 28px 32px; max-width: 700px; margin-top: 28px; font-family: 'Courier New', monospace; font-size: 18px; line-height: 1.7;">
+    <span style="color: var(--gold);">MEMORY.md</span><br>
+    <span style="color: var(--dim);"># Memory Index</span><br>
+    <span style="color: var(--white);">30 memory files</span><br>
+    <span style="color: var(--dim);">user preferences, project context,</span><br>
+    <span style="color: var(--dim);">feedback, references...</span>
+  </div>
+  <p style="font-size: 24px; margin-top: 28px; max-width: 800px; line-height: 1.5;">I told Spark once: <em>"stop giving me task lists."</em><br>It never did it again. <strong style="color: var(--gold);">Across every future session.</strong></p>
+</div>
+
+<!-- SLIDE 10: Authentication -->
+<div class="slide center-content" data-act="2">
+  <div class="act-label">Act 2 &mdash; The Architecture</div>
+  <h2 style="font-size: 38px; margin-bottom: 8px;">The Authentication System</h2>
+  <div class="emoji-auth">&#128293;&#9889;</div>
+  <p style="font-size: 28px; max-width: 700px; line-height: 1.5;">Yes, the CEO of my AI system is locked behind a fire emoji and a lightning bolt.</p>
+  <p style="font-size: 24px; color: var(--dim); margin-top: 16px;">Security through obscurity? No.<br><strong style="color: var(--gold);">Security through absurdity.</strong></p>
+</div>
+
+<!-- SLIDE 11: Session Protocol -->
+<div class="slide" data-act="2">
+  <div class="act-label">Act 2 &mdash; The Architecture</div>
+  <h2 style="font-size: 38px; margin-bottom: 28px;">The Session Protocol</h2>
+  <div class="two-col" style="max-width: 900px;">
+    <div>
+      <p style="color: var(--gold); font-size: 18px; font-weight: 600; margin-bottom: 12px; letter-spacing: 1px;">EVERY SESSION STARTS</p>
+      <ul class="big-list">
+        <li style="font-size: 22px;">Read last-session.md</li>
+        <li style="font-size: 22px;">Check for contradictions</li>
+        <li style="font-size: 22px;">Flag stale files</li>
+        <li style="font-size: 22px;">Predict what I'll need</li>
+      </ul>
+    </div>
+    <div>
+      <p style="color: var(--gold); font-size: 18px; font-weight: 600; margin-bottom: 12px; letter-spacing: 1px;">EVERY SESSION ENDS</p>
+      <ul class="big-list">
+        <li style="font-size: 22px;">Update state files</li>
+        <li style="font-size: 22px;">Draft morning email</li>
+        <li style="font-size: 22px;">Log what was built</li>
+        <li style="font-size: 22px;">Sync to Drive</li>
+      </ul>
+    </div>
+  </div>
+  <p class="final-line" style="font-size: 28px; margin-top: 36px;">"The institution documents itself."</p>
+</div>
+
+<!-- SLIDE 12: Email System -->
+<div class="slide" data-act="2">
+  <div class="act-label">Act 2 &mdash; The Architecture</div>
+  <h2 style="font-size: 38px; margin-bottom: 24px;">The Email System</h2>
+  <div style="background: #1A1A1A; border: 1px solid #333; border-radius: 8px; padding: 24px 32px; max-width: 700px; margin-bottom: 24px;">
+    <p style="color: var(--dim); font-size: 14px; margin-bottom: 8px;">DRAFT &mdash; Gmail</p>
+    <p style="color: var(--gold); font-size: 18px; font-weight: 600;">To: partner@university.edu</p>
+    <p style="color: var(--white); font-size: 18px; margin-top: 12px; line-height: 1.6;">Hi Dr. Chen &mdash; Following up on our conversation about the VR heritage workshop. Based on our project timeline, we could demo the Du Bois experience at your faculty meeting on the 15th...</p>
+  </div>
+  <ul class="big-list" style="max-width: 800px;">
+    <li style="font-size: 24px;">Spark drafts every email. I review and send.</li>
+    <li style="font-size: 24px;">It never sends automatically.</li>
+    <li style="font-size: 24px;">Tone is personal. Relationships are human.</li>
+  </ul>
+  <p class="speaker-note">"The draft is better than what I'd write from scratch &mdash; because Spark has the full project context."</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 3: THE SUPERPOWERS -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 13: Cross-Project Intelligence -->
+<div class="slide" data-act="3">
+  <div class="act-label">Act 3 &mdash; The Superpowers</div>
+  <h2 style="font-size: 40px; margin-bottom: 8px;">Cross-Project Intelligence</h2>
+  <p class="subtitle" style="margin-bottom: 24px;">17 projects scanned. 30 connections found in one pass.</p>
+  <div class="connection-card"><span class="connection-num">01</span> A component built for one VR experience that upgrades another</div>
+  <div class="connection-card"><span class="connection-num">02</span> A scholar who bridges 3 different archive projects</div>
+  <div class="connection-card"><span class="connection-num">03</span> A font file duplicated across 4 projects wasting 8.6 MB</div>
+  <p style="font-size: 24px; color: var(--dim); margin-top: 24px;">A 10-person team discovers these in weekly standups.<br><strong style="color: var(--gold);">Spark found them in one pass.</strong></p>
+</div>
+
+<!-- SLIDE 14: Decision Journal -->
+<div class="slide" data-act="3">
+  <div class="act-label">Act 3 &mdash; The Superpowers</div>
+  <h2 style="font-size: 40px; margin-bottom: 24px;">The Decision Journal</h2>
+  <div style="background: #1A1A1A; border: 1px solid #333; border-left: 4px solid var(--gold); border-radius: 4px; padding: 24px 32px; max-width: 800px; font-size: 20px; line-height: 1.7;">
+    <p><strong style="color: var(--gold);">Decision:</strong> 8th Wall over MindAR</p>
+    <p><strong style="color: var(--gold);">Alternatives:</strong> WebXR (no iOS), keep MindAR (worse tracking)</p>
+    <p><strong style="color: var(--gold);">Reasoning:</strong> Free, MIT license, iOS + Android</p>
+    <p><strong style="color: var(--gold);">Confidence:</strong> 5/5 &nbsp;&bull;&nbsp; <strong style="color: var(--gold);">Reversible:</strong> Yes</p>
+  </div>
+  <p style="font-size: 26px; margin-top: 32px; max-width: 800px; line-height: 1.4;">Six months from now, when someone asks <em>"why did you choose this?"</em> &mdash; the answer is searchable.</p>
+</div>
+
+<!-- SLIDE 15: Confidence Scoring -->
+<div class="slide center-content" data-act="3">
+  <div class="act-label">Act 3 &mdash; The Superpowers</div>
+  <h2 style="font-size: 44px; margin-bottom: 32px;">Confidence Scoring</h2>
+  <div style="background: #1A1A1A; border: 1px solid #333; border-radius: 8px; padding: 32px 40px; max-width: 700px; text-align: left;">
+    <p style="font-size: 22px; line-height: 1.6;"><strong style="color: var(--gold);">Confidence: 3/5</strong></p>
+    <p style="font-size: 20px; line-height: 1.6; color: var(--dim); margin-top: 8px;">Based on secondary sources. Community consultation not yet done. Significant gaps in Garvey archive.</p>
+  </div>
+  <p style="font-size: 28px; margin-top: 36px; max-width: 700px; line-height: 1.4;">The AI tells you <span class="gold">when it doesn't know.</span><br>That's rarer than you think.</p>
+</div>
+
+<!-- SLIDE 16: Contradiction Detector -->
+<div class="slide" data-act="3">
+  <div class="act-label">Act 3 &mdash; The Superpowers</div>
+  <h2 style="font-size: 44px; margin-bottom: 28px;">The Contradiction Detector</h2>
+  <div style="background: #1A1A1A; border: 2px solid var(--amber); border-radius: 8px; padding: 28px 32px; max-width: 800px; margin-bottom: 24px;">
+    <p style="color: var(--amber); font-size: 18px; font-weight: 700; margin-bottom: 8px;">&#9888; CONTRADICTION FOUND</p>
+    <p style="font-size: 22px; line-height: 1.6;"><span style="font-family: 'Courier New', monospace; color: var(--gold);">portfolio.md</span> says Douglass is <em>"feature-complete"</em></p>
+    <p style="font-size: 22px; line-height: 1.6;"><span style="font-family: 'Courier New', monospace; color: var(--gold);">validation-log.md</span> says <em>"active build"</em></p>
+  </div>
+  <p style="font-size: 32px; color: var(--gold); margin-top: 16px;">No stale data survives.</p>
+</div>
+
+<!-- SLIDE 17: Scenario Engine -->
+<div class="slide" data-act="3">
+  <div class="act-label">Act 3 &mdash; The Superpowers</div>
+  <h2 style="font-size: 40px; margin-bottom: 24px;">The Scenario Engine</h2>
+  <div style="background: #1A1A1A; border: 1px solid #333; border-radius: 8px; padding: 24px 32px; max-width: 800px;">
+    <p style="color: var(--dim); font-size: 16px; font-weight: 600; margin-bottom: 12px; letter-spacing: 1px;">SCENARIO QUERY</p>
+    <p style="font-size: 24px; margin-bottom: 20px;">"What if we skip Juneteenth and focus on July 4?"</p>
+    <p style="color: var(--gold); font-size: 16px; font-weight: 600; margin-bottom: 8px;">DOWNSTREAM IMPACT</p>
+    <p style="font-size: 20px; line-height: 1.6; color: var(--dim);">Positive: 6 extra weeks of build time for Douglass 250th...<br>Negative: Lose Ghana Du Bois Foundation demo slot, investor momentum from Oculus event, HBCU tour pilot visibility...</p>
+  </div>
+  <p style="font-size: 24px; margin-top: 28px;">Every major decision gets modeled against the <strong style="color: var(--gold);">real state of the organization.</strong></p>
+</div>
+
+<!-- SLIDE 18: What It Costs -->
+<div class="slide center-content" data-act="3">
+  <div class="act-label">Act 3 &mdash; The Superpowers</div>
+  <p class="cost-crossed">$250,000/year</p>
+  <p class="cost-real">$20<span style="font-size: 60px; color: var(--dim);">/mo</span></p>
+  <div style="margin-top: 32px;">
+    <table class="data-table" style="max-width: 500px; margin: 0 auto; font-size: 18px;">
+      <thead><tr><th>Component</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Claude Code</td><td>~$20/mo</td></tr>
+        <tr><td>Gmail MCP</td><td>Free</td></tr>
+        <tr><td>Calendar MCP</td><td>Free</td></tr>
+        <tr><td>Git repo</td><td>Free</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size: 24px; color: var(--dim); margin-top: 28px;">The value isn't the cost savings.<br><strong style="color: var(--white);">One person can operate like a ten-person company.</strong></p>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 4: THE HONEST PART -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 19: What Spark Can't Do -->
+<div class="slide" data-act="4">
+  <div class="act-label">Act 4 &mdash; The Honest Part</div>
+  <h2 style="font-size: 40px; margin-bottom: 28px;">What Spark <span style="color: var(--red);">Can't</span> Do</h2>
+  <ul class="big-list" style="max-width: 800px;">
+    <li>Can't replace community relationships</li>
+    <li>Can't validate cultural authenticity</li>
+    <li>Can't attend events &mdash; you still show up</li>
+    <li>Can't make creative judgments</li>
+    <li>Can't send email &mdash; drafts only, human sends</li>
+  </ul>
+  <p style="font-size: 26px; color: var(--gold); margin-top: 32px;">"The founder is still the founder. Spark is the COO."</p>
+</div>
+
+<!-- SLIDE 20: The Failures -->
+<div class="slide" data-act="4">
+  <div class="act-label">Act 4 &mdash; The Honest Part</div>
+  <h2 style="font-size: 40px; margin-bottom: 24px; color: var(--red);">The Failures</h2>
+  <div class="failure-card">Spark downloaded 2 portraits of <strong>white men</strong> from the Library of Congress and put them in a <strong>Black liberation VR experience.</strong> I had to check every image by hand.</div>
+  <div class="failure-card">The crowd silhouettes in the Douglass experience were box geometry with spheres for heads. My feedback: <strong>"bruh, can't tell those are humans."</strong></div>
+  <div class="failure-card">We built 81 image planes into 7 scenes. I said <strong>"some of these scenes are overwhelming."</strong> We had to thin to 3-4 per scene.</div>
+  <p style="font-size: 22px; color: var(--dim); margin-top: 20px;">The system is powerful. It's not perfect.<br><strong style="color: var(--white);">Human oversight isn't a limitation &mdash; it's the design.</strong></p>
+</div>
+
+<!-- SLIDE 21: Anti-Rubber-Stamp -->
+<div class="slide center-content" data-act="4">
+  <div class="act-label">Act 4 &mdash; The Honest Part</div>
+  <h2 style="font-size: 42px; max-width: 850px;">The Anti-Rubber-Stamp Rule</h2>
+  <div style="background: #1A1A1A; border: 2px solid var(--gold); border-radius: 8px; padding: 32px 40px; max-width: 700px; margin-top: 28px; text-align: left;">
+    <p style="font-size: 24px; line-height: 1.6;">The Cultural Validator <strong style="color: var(--gold);">cannot approve something the same turn it first encounters it.</strong></p>
+    <p style="font-size: 22px; line-height: 1.6; color: var(--dim); margin-top: 12px;">First response is always findings and questions.<br>Never "looks good."</p>
+  </div>
+  <p style="font-size: 26px; margin-top: 32px; max-width: 700px; line-height: 1.4;">Without this rule, the AI just tells you what you want to hear.</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- ACT 5: THE CLOSE -->
+<!-- ============================================================ -->
+
+<!-- SLIDE 22: What You Can Build -->
+<div class="slide" data-act="5">
+  <div class="act-label">Act 5 &mdash; The Close</div>
+  <h2 style="font-size: 40px; margin-bottom: 28px;">Every org with more ambition<br>than headcount <span class="gold">needs this.</span></h2>
+  <ul class="big-list" style="max-width: 800px;">
+    <li>Nonprofits with 1 program manager and 5 programs</li>
+    <li>Studios with 1 creative director and 10 projects</li>
+    <li>Startups with 1 founder and 0 employees</li>
+    <li>Research labs with 1 PI and 20 projects</li>
+  </ul>
+  <p style="font-size: 24px; color: var(--dim); margin-top: 28px;">If you have a Claude subscription and a git repo,<br><strong style="color: var(--gold);">you can have a Spark by end of day.</strong></p>
+</div>
+
+<!-- SLIDE 23: Workshop Preview -->
+<div class="slide" data-act="5">
+  <div class="act-label">Act 5 &mdash; The Close</div>
+  <h2 style="font-size: 38px; margin-bottom: 24px;">The Workshop &mdash; 3 Hours</h2>
+  <ol class="workshop-steps" style="max-width: 800px;">
+    <li>Your own agent roster (3-5 agents tailored to YOUR org)</li>
+    <li>Your state file system (portfolio, priorities, people)</li>
+    <li>Your memory layer (cross-session persistence)</li>
+    <li>Your session protocol (how every session starts and ends)</li>
+    <li>Your first Gmail-integrated email draft</li>
+  </ol>
+  <p style="font-size: 24px; color: var(--gold); margin-top: 28px;">You leave with a working system. Not a slide deck about a system.</p>
+</div>
+
+<!-- SLIDE 24: Ops Dashboard -->
+<div class="slide center-content" data-act="5">
+  <div class="act-label">Act 5 &mdash; The Close</div>
+  <h2 style="font-size: 40px; margin-bottom: 16px;">The Ops Dashboard</h2>
+  <p class="subtitle" style="margin-bottom: 28px;">ops.radicalimagination.xyz</p>
+  <div style="background: #1A1A1A; border: 1px solid #333; border-radius: 12px; padding: 40px; max-width: 700px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left;">
+    <div style="border-left: 3px solid var(--gold); padding-left: 16px;">
+      <p style="color: var(--dim); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Calendar</p>
+      <p style="font-size: 20px; color: var(--white);">Live view</p>
+    </div>
+    <div style="border-left: 3px solid var(--gold); padding-left: 16px;">
+      <p style="color: var(--dim); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Budget</p>
+      <p style="font-size: 20px; color: var(--white);">Real-time</p>
+    </div>
+    <div style="border-left: 3px solid var(--gold); padding-left: 16px;">
+      <p style="color: var(--dim); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">War Room</p>
+      <p style="font-size: 20px; color: var(--white);">Active priorities</p>
+    </div>
+    <div style="border-left: 3px solid var(--gold); padding-left: 16px;">
+      <p style="color: var(--dim); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Handoff Docs</p>
+      <p style="font-size: 20px; color: var(--white);">Always current</p>
+    </div>
+  </div>
+  <p style="font-size: 22px; color: var(--dim); margin-top: 24px;">The institution doesn't need the founder in the room to know what's happening.</p>
+</div>
+
+<!-- SLIDE 25: The Line -->
+<div class="slide center-content" data-act="5">
+  <div class="act-label">Act 5 &mdash; The Close</div>
+  <div style="max-width: 800px;">
+    <p style="font-family: 'VTC Du Bois', Georgia, serif; font-size: 56px; line-height: 1.3; color: var(--white);">
+      <span class="gold">155,000</span> lines of code.<br>
+      <span class="gold">17</span> projects.<br>
+      <span class="gold">1</span> founder.<br>
+      <span class="gold">0</span> funding.<br>
+      <span class="gold">8</span> AI agents.<br>
+      <span class="gold">$20</span>/month.
+    </p>
+    <p class="final-line" style="margin-top: 40px;">The system didn't make the art.<br>The system made the art possible.</p>
+  </div>
+</div>
+
+<!-- SLIDE 26: Q&A -->
+<div class="slide center-content" data-act="5">
+  <p class="qa-big">Q&A</p>
+  <p class="subtitle" style="margin-top: 24px;">Mike Spade &middot; Radical Imagination<br>create@radicalimagination.xyz</p>
+</div>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const total = slides.length;
+  let current = 0;
+
+  function show(i) {
+    if (i < 0 || i >= total) return;
+    slides[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + total;
+    progress.style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  function next() { show(current + 1); }
+  function prev() { show(current - 1); }
+
+  // Init
+  show(0);
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      next();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      prev();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      show(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      show(total - 1);
+    }
+  });
+
+  // Click
+  document.addEventListener('click', function(e) {
+    var w = window.innerWidth;
+    if (e.clientX > w / 2) {
+      next();
+    } else {
+      prev();
+    }
+  });
+
+  // Touch swipe
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) next(); else prev();
+    }
+  });
+})();
+</script>
+</body>
+</html>
